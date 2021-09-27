@@ -34,7 +34,7 @@ Q               Should quit the program.
 __Sample I/O__
 
 Below is a sample run of the program. User input is prefixed with enter command:
-
+```
 enter command: C 20 4
 ----------------------
 |                    |
@@ -42,7 +42,9 @@ enter command: C 20 4
 |                    |
 |                    |
 ----------------------
+```
 
+```
 enter command: L 1 2 6 2
 ----------------------
 |                    |
@@ -50,7 +52,9 @@ enter command: L 1 2 6 2
 |                    |
 |                    |
 ----------------------
+```
 
+```
 enter command: L 6 3 6 4
 ----------------------
 |                    |
@@ -58,7 +62,9 @@ enter command: L 6 3 6 4
 |     x              |
 |     x              |
 ----------------------
+```
 
+```
 enter command: R 14 1 18 3
 ----------------------
 |             xxxxx  |
@@ -66,7 +72,9 @@ enter command: R 14 1 18 3
 |     x       xxxxx  |
 |     x              |
 ----------------------
+```
 
+```
 enter command: B 10 3 o
 ----------------------
 |oooooooooooooxxxxxoo|
@@ -74,5 +82,8 @@ enter command: B 10 3 o
 |     xoooooooxxxxxoo|
 |     xoooooooooooooo|
 ----------------------
+```
 
+```
 enter command: Q
+```
