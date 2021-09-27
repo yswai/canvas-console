@@ -26,6 +26,6 @@ public class CanvasTest {
   public void testCanvasLarge() throws InterruptedException {
     Canvas canvas = canvasService.executeCommand(null, "C 500 500");
     canvas = canvasService.executeCommand(canvas, "B 100 100 o");
-//    canvas.print();
+    canvas.print();
   }
 }

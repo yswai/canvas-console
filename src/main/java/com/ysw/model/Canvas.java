@@ -3,6 +3,8 @@ package com.ysw.model;
 import com.ysw.util.SetLinkedBlockingQueue;
 import lombok.Data;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -76,11 +78,12 @@ public class Canvas {
         }
       }
     } else if (BFS.equals(searchType)){
-      SetLinkedBlockingQueue<Coordinate> queue = new SetLinkedBlockingQueue<>();
+      Set<Coordinate> queue = new LinkedHashSet<>();
       queue.add(new Coordinate(pointEnd.getX() - 1, pointEnd.getY() - 1));
 
       while (!queue.isEmpty()) {
-        Coordinate dequeued = queue.take();
+        Coordinate dequeued = queue.iterator().next();
+        queue.remove(dequeued);
         if (canvasArea[dequeued.getX()][dequeued.getY()] == existingColorOnPoint) {
           canvasArea[dequeued.getX()][dequeued.getY()] = color;
         }
