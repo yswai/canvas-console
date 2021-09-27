@@ -6,12 +6,11 @@ import com.ysw.model.Coordinate;
 import java.util.Arrays;
 
 import static com.ysw.model.SearchType.BFS;
-import static com.ysw.model.SearchType.DFS;
 import static java.util.Objects.isNull;
 
 public class CanvasService {
 
-  public Canvas executeCommand(Canvas canvas, String command) {
+  public Canvas executeCommand(Canvas canvas, String command) throws InterruptedException {
     String[] commandParts = command.split(" ");
     String commandType = commandParts[0];
     if (!Arrays.asList("C", "L", "R", "B", "Q").contains(commandType)) {

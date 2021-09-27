@@ -1,16 +1,14 @@
 package com.ysw.model;
 
+import com.ysw.util.SetLinkedBlockingQueue;
 import lombok.Data;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.ysw.model.SearchType.BFS;
 import static com.ysw.model.SearchType.DFS;
-import static java.lang.Math.max;
 import static java.util.Optional.ofNullable;
 
 @Data
@@ -53,7 +51,7 @@ public class Canvas {
     drawLine(vertex1, vertex4);
   }
 
-  public void fill(Coordinate pointEnd, String color, SearchType searchType) {
+  public void fill(Coordinate pointEnd, String color, SearchType searchType) throws InterruptedException {
     String existingColorOnPoint = canvasArea[pointEnd.getX()-1][pointEnd.getY()-1];
     if (DFS.equals(searchType)) {
       Stack<Coordinate> stack = new Stack<>();
@@ -78,11 +76,11 @@ public class Canvas {
         }
       }
     } else if (BFS.equals(searchType)){
-      Queue<Coordinate> queue = new ArrayDeque<>();
+      SetLinkedBlockingQueue<Coordinate> queue = new SetLinkedBlockingQueue<>();
       queue.add(new Coordinate(pointEnd.getX() - 1, pointEnd.getY() - 1));
 
       while (!queue.isEmpty()) {
-        Coordinate dequeued = queue.remove();
+        Coordinate dequeued = queue.take();
         if (canvasArea[dequeued.getX()][dequeued.getY()] == existingColorOnPoint) {
           canvasArea[dequeued.getX()][dequeued.getY()] = color;
         }
