@@ -5,6 +5,8 @@ import com.ysw.model.Coordinate;
 
 import java.util.Arrays;
 
+import static com.ysw.model.SearchType.BFS;
+import static com.ysw.model.SearchType.DFS;
 import static java.util.Objects.isNull;
 
 public class CanvasService {
@@ -55,7 +57,8 @@ public class CanvasService {
         Integer bx = Integer.parseInt(commandParts[1]);
         Integer by = Integer.parseInt(commandParts[2]);
         String color = String.valueOf(commandParts[3].charAt(0));
-        canvas.fill(new Coordinate(bx, by), color);
+//        canvas.fill(new Coordinate(bx, by), color, DFS);
+        canvas.fill(new Coordinate(bx, by), color, BFS);
         break;
       case "Q":
         System.exit(0);

@@ -2,10 +2,14 @@ package com.ysw.model;
 
 import lombok.Data;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.ysw.model.SearchType.BFS;
+import static com.ysw.model.SearchType.DFS;
 import static java.lang.Math.max;
 import static java.util.Optional.ofNullable;
 
@@ -16,6 +20,7 @@ public class Canvas {
   private final int height;
   private final String[][] canvasArea;
   private final String horizontalLine;
+  private boolean useDepthFirstSearch;
 
   public Canvas(int width, int height) {
     this.width = width;
@@ -48,27 +53,51 @@ public class Canvas {
     drawLine(vertex1, vertex4);
   }
 
-  public void fill(Coordinate pointEnd, String color) {
+  public void fill(Coordinate pointEnd, String color, SearchType searchType) {
     String existingColorOnPoint = canvasArea[pointEnd.getX()-1][pointEnd.getY()-1];
-    Stack<Coordinate> stack = new Stack<>();
-    stack.add(new Coordinate(pointEnd.getX()-1, pointEnd.getY()-1));
+    if (DFS.equals(searchType)) {
+      Stack<Coordinate> stack = new Stack<>();
+      stack.add(new Coordinate(pointEnd.getX() - 1, pointEnd.getY() - 1));
 
-    while (!stack.isEmpty()) {
-      Coordinate pop = stack.pop();
-      if (canvasArea[pop.getX()][pop.getY()] == existingColorOnPoint) {
-        canvasArea[pop.getX()][pop.getY()] = color;
+      while (!stack.isEmpty()) {
+        Coordinate pop = stack.pop();
+        if (canvasArea[pop.getX()][pop.getY()] == existingColorOnPoint) {
+          canvasArea[pop.getX()][pop.getY()] = color;
+        }
+        if (pop.getX() - 1 >= 0 && canvasArea[pop.getX() - 1][pop.getY()] == existingColorOnPoint) {
+          stack.add(new Coordinate(pop.getX() - 1, pop.getY()));
+        }
+        if (pop.getX() + 1 < width && canvasArea[pop.getX() + 1][pop.getY()] == existingColorOnPoint) {
+          stack.add(new Coordinate(pop.getX() + 1, pop.getY()));
+        }
+        if (pop.getY() - 1 >= 0 && canvasArea[pop.getX()][pop.getY() - 1] == existingColorOnPoint) {
+          stack.add(new Coordinate(pop.getX(), pop.getY() - 1));
+        }
+        if (pop.getY() + 1 < height && canvasArea[pop.getX()][pop.getY() + 1] == existingColorOnPoint) {
+          stack.add(new Coordinate(pop.getX(), pop.getY() + 1));
+        }
       }
-      if (pop.getX()-1 >= 0 && canvasArea[pop.getX()-1][pop.getY()] == existingColorOnPoint) {
-        stack.add(new Coordinate(pop.getX()-1, pop.getY()));
-      }
-      if (pop.getX()+1 < width && canvasArea[pop.getX()+1][pop.getY()] == existingColorOnPoint) {
-        stack.add(new Coordinate(pop.getX()+1, pop.getY()));
-      }
-      if (pop.getY()-1 >= 0 && canvasArea[pop.getX()][pop.getY()-1] == existingColorOnPoint) {
-        stack.add(new Coordinate(pop.getX(), pop.getY()-1));
-      }
-      if (pop.getY()+1 < height && canvasArea[pop.getX()][pop.getY()+1] == existingColorOnPoint) {
-        stack.add(new Coordinate(pop.getX(), pop.getY()+1));
+    } else if (BFS.equals(searchType)){
+      Queue<Coordinate> queue = new ArrayDeque<>();
+      queue.add(new Coordinate(pointEnd.getX() - 1, pointEnd.getY() - 1));
+
+      while (!queue.isEmpty()) {
+        Coordinate dequeued = queue.remove();
+        if (canvasArea[dequeued.getX()][dequeued.getY()] == existingColorOnPoint) {
+          canvasArea[dequeued.getX()][dequeued.getY()] = color;
+        }
+        if (dequeued.getX() - 1 >= 0 && canvasArea[dequeued.getX() - 1][dequeued.getY()] == existingColorOnPoint) {
+          queue.add(new Coordinate(dequeued.getX() - 1, dequeued.getY()));
+        }
+        if (dequeued.getX() + 1 < width && canvasArea[dequeued.getX() + 1][dequeued.getY()] == existingColorOnPoint) {
+          queue.add(new Coordinate(dequeued.getX() + 1, dequeued.getY()));
+        }
+        if (dequeued.getY() - 1 >= 0 && canvasArea[dequeued.getX()][dequeued.getY() - 1] == existingColorOnPoint) {
+          queue.add(new Coordinate(dequeued.getX(), dequeued.getY() - 1));
+        }
+        if (dequeued.getY() + 1 < height && canvasArea[dequeued.getX()][dequeued.getY() + 1] == existingColorOnPoint) {
+          queue.add(new Coordinate(dequeued.getX(), dequeued.getY() + 1));
+        }
       }
     }
   }
